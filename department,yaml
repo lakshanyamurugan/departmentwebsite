@@ -1,0 +1,30 @@
+trigger:
+- main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+- task: UseNode@2
+  inputs:
+    versionSpec: '16.x'
+    addToPath: true
+
+- task: NodeTool@0
+  inputs:
+    versionSpec: '16.x'
+    addToPath: true
+
+- task: Npm@1
+  inputs:
+    command: 'install'
+
+- task: Npm@1
+  inputs:
+    command: 'run build'   # Assuming you have a build script (optional)
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    pathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    artifactName: 'engineering-college-site'
+    publishLocation: 'Container'
