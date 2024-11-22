@@ -5,26 +5,26 @@ pool:
   vmImage: 'ubuntu-latest'
 
 steps:
-- task: UseNode@2
+# Step 1: Set up Node.js using the correct task version (UseNode@1)
+- task: UseNode@1
   inputs:
-    versionSpec: '16.x'
+    versionSpec: '16.x'  # Node.js version to use
     addToPath: true
 
-- task: NodeTool@0
-  inputs:
-    versionSpec: '16.x'
-    addToPath: true
-
+# Step 2: Install Node.js dependencies
 - task: Npm@1
   inputs:
     command: 'install'
 
+# Step 3: Optionally build the project if needed (e.g., for React, Angular, etc.)
 - task: Npm@1
   inputs:
-    command: 'run build'   # Assuming you have a build script (optional)
+    command: 'run build'   # Optional, if your project needs a build step
 
+# Step 4: Publish the website artifacts
 - task: PublishBuildArtifacts@1
   inputs:
     pathtoPublish: '$(Build.ArtifactStagingDirectory)'
     artifactName: 'engineering-college-site'
     publishLocation: 'Container'
+
